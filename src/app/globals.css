@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #040812;
+  color: #e7eaf3;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Selection */
+::selection {
+  background: rgba(0, 229, 160, 0.35);
+  color: #ffffff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #040812;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a2348;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2a3568;
+}
+
+@layer components {
+  .glass {
+    @apply rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl;
+  }
+
+  .glow-text {
+    background: linear-gradient(180deg, #ffffff 0%, #cdd5e8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-text {
+    background: linear-gradient(120deg, #00E5A0 0%, #4dffc0 35%, #ffffff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+  }
+
+  .prose-invert-mint {
+    @apply prose prose-invert max-w-none;
+  }
+
+  .prose-invert-mint :where(a):not(:where([class~="not-prose"] *)) {
+    @apply text-mint no-underline transition-colors hover:text-mint-400;
+  }
+
+  .prose-invert-mint :where(h1, h2, h3, h4):not(:where([class~="not-prose"] *)) {
+    @apply font-display tracking-tight;
+  }
+
+  .prose-invert-mint :where(code):not(:where([class~="not-prose"] *)) {
+    @apply rounded bg-white/10 px-1.5 py-0.5 text-mint-200;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  .animate-delay-100 { animation-delay: 0.1s; }
+  .animate-delay-200 { animation-delay: 0.2s; }
+  .animate-delay-300 { animation-delay: 0.3s; }
+  .animate-delay-400 { animation-delay: 0.4s; }
+}
+
+/* TipTap */
+.tiptap {
+  @apply min-h-[300px] rounded-xl border border-white/10 bg-ink-900 px-4 py-3 text-ink-100 outline-none focus-within:border-mint/40;
+}
+.tiptap p { @apply my-2; }
+.tiptap h1 { @apply mt-4 mb-2 font-display text-3xl; }
+.tiptap h2 { @apply mt-4 mb-2 font-display text-2xl; }
+.tiptap h3 { @apply mt-4 mb-2 font-display text-xl; }
+.tiptap a  { @apply text-mint underline-offset-2 hover:underline; }
+.tiptap ul { @apply list-disc pl-6; }
+.tiptap ol { @apply list-decimal pl-6; }
+.tiptap blockquote { @apply border-l-2 border-mint pl-4 italic; }
+.tiptap code { @apply rounded bg-white/10 px-1 py-0.5 text-mint-200; }
+.tiptap p.is-editor-empty:first-child::before {
+  color: rgba(255, 255, 255, 0.3);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
