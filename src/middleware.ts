@@ -1,11 +1,21 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import type { NextRequest } from "next/server";
 
-export default auth((req) => {
+export default function middleware(req: NextRequest) {
   const { pathname, origin } = req.nextUrl;
-  const isLoggedIn = !!req.auth?.user?.id;
 
-  const isAdminPage = pathname.startsWith("/admin") && pathname !== "/admin/login";
+  // Change this cookie name if your auth system uses a different one.
+  const sessionToken =
+    req.cookies.get("authjs.session-token")?.value ||
+    req.cookies.get("__Secure-authjs.session-token")?.value ||
+    req.cookies.get("next-auth.session-token")?.value ||
+    req.cookies.get("__Secure-next-auth.session-token")?.value;
+
+  const isLoggedIn = Boolean(sessionToken);
+
+  const isAdminPage =
+    pathname.startsWith("/admin") && pathname !== "/admin/login";
+
   const isAdminApi = pathname.startsWith("/api/admin");
   const isLoginPage = pathname === "/admin/login";
 
@@ -24,7 +34,7 @@ export default auth((req) => {
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: ["/admin/:path*", "/api/admin/:path*"],
